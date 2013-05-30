@@ -130,8 +130,6 @@ class Template
                     $file = getcwd() . $file;
                     if (file_exists($file)) {
                         $css .= file_get_contents($file);
-                    }else{
-                        die($file . 'No!');
                     }
                 }
                 //$this->css_compiled .= "\t" . '<link rel="stylesheet" href="' . $file . '">' . "\n";
