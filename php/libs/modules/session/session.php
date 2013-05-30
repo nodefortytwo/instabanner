@@ -25,7 +25,7 @@ function session($state = 0){
 
 function session_kill(){//session_destroy is already a function :(
 
-    sesh()->destroy();
+    session()->destroy();
     redirect('/');
     
 }

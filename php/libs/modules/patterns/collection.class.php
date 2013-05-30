@@ -49,6 +49,18 @@ class Collection implements Iterator{
     }
     
     function render($style = 'table', $args = array()) {
+        if(method_exists($this, 'render_' . $style)){
+            return call_user_func(array(
+                $this,
+                'render_' . $style
+            ), func_get_args());
+        }else{
+            throw new exception($style . ' not valid for this collection');
+        }
+    }
+
+
+    function render_table($style = 'table', $args = array()){
         list($headers, $rows) = $this->get_table_data($args);
         foreach($rows as $key=>$row){
             foreach($row as $ckey=>$col){

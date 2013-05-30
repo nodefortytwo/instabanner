@@ -18,6 +18,7 @@ function pages_homepage() {
     $page = new Template();
     $page->title = "Welcome";
     $page->mkd('templates/index.mkd', 'pages');
+    $page->c(instagram_connect_button());
     return $page->render();
 }
 
@@ -51,7 +52,7 @@ function pages_500($eid = null) {
     header("HTTP/1.0 500 Server Error");
     $page = new Template();
     $page->title = "Code Error";
-    $page->c('<div class="span12">' . '<h1>500 - I appear to have broken the interwebs</h1>');
+    $page->c('<div class="span12">' . '<h1>500 - I appear to have broken something. Sent me a tweet STAT! @nodefortytwo</h1>');
     $page->c('</div>');
 
     if(class_exists('Error')){

@@ -1,7 +1,7 @@
 <?php
 //this class is a fairly half assed attempt to allow for smart session creation. only when the state is set to 1 will an actual session be used, the rest of the time it is simply a global value store
 class Session{
-    private $id, $state = 0, $data = array(), $persist = false, $pcookie_name = 'DC_PERSISTANT_SESSION';
+    private $id, $state = 0, $data = array(), $persist = false, $pcookie_name = 'PLATFORM_PERSISTANT_SESSION';
     
     function __construct(){
         
@@ -21,6 +21,7 @@ class Session{
             session_id($this->id);
             session_start();
             $this->state = 1;
+            $this->load_data();
         }
         
         

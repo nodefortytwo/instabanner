@@ -1,2 +1,2 @@
-# Welcome to the Platform
-The platform is what powers all of my sites, isn't that cool.
+# Welcome to the instabanner
+Instabanner allows you to create really banner and profile backgrounds using your instagram library. Connect with instagram below to get started
