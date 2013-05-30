@@ -17,7 +17,8 @@ function mongo_init(){
 function mdb($newdb = null){
     static $client, $mdb;
     if(!$client){
-        $client = new MongoClient();
+        $con_string = "mongodb://" . config('OPENSHIFT_MONGODB_DB_HOST') . ":" . config('OPENSHIFT_MONGODB_DB_HOST') . "@" . config('OPENSHIFT_MONGODB_DB_HOST') . ':' . config('OPENSHIFT_MONGODB_DB_PORT'); 
+        $client = new MongoClient($con_string);
     }
     
     if(!$mdb && $newdb){
