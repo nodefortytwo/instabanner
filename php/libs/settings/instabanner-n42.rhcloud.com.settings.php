@@ -9,7 +9,8 @@ define('DB_NAME', 'cycle');
 define('HOST', 'instabanner-n42.rhcloud.com');
 define('SITE_ROOT', '');
 define('PATH_TO_MODULES', 'libs/modules');
-define('SITE_NAME', 'Platform');
+define('SITE_NAME', 'Instabanner.me');
+define('DEFAULT_STYLE', 'cosmo');
 
 define('UPLOAD_PATH', 'public');
 
