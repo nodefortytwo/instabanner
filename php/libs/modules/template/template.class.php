@@ -140,8 +140,6 @@ class Template
             $path = config('UPLOAD_PATH') . '/css/' . $key . '_' . $id . '.css';
             if (!file_exists($path)) {
                 file_put_contents($path, $css);
-            }else{
-                 die($file . ' does\'t exist');
             }
             $this->css_compiled[] = get_url('/' . $path);
         }
