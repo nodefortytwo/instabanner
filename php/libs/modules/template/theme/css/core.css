@@ -1,0 +1,160 @@
+[class^="icon-"], [class*=" icon-"] {
+	background-image: url("/libs/modules/template/theme/img/glyphicons-halflings.png");
+}
+
+th.headerSortUp:after {
+	float:right;
+	content: "↓";
+}
+
+th.headerSortDown:after {
+	float:right;
+	content: "↑";
+}
+
+
+.btn {
+	display: inline-block;
+	padding: 4px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	line-height: 20px;
+	color: #000;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	vertical-align: middle;
+	cursor: pointer;
+	background-color: #dfdfdf;
+	background-image: -moz-linear-gradient(top,#eee,#c8c8c8);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#eee),to(#c8c8c8));
+	background-image: -webkit-linear-gradient(top,#eee,#c8c8c8);
+	background-image: -o-linear-gradient(top,#eee,#c8c8c8);
+	background-image: linear-gradient(to bottom,#eee,#c8c8c8);
+	background-repeat: repeat-x;
+	border: 1px solid #bbb;
+	border-color: #c8c8c8 #c8c8c8 #a2a2a2;
+	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+	border-bottom-color: #a2a2a2;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeeeeee',endColorstr='#ffc8c8c8',GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.btn-primary {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #0f82f5;
+	background-image: -moz-linear-gradient(top,#1a8cff,#0072e6);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#1a8cff),to(#0072e6));
+	background-image: -webkit-linear-gradient(top,#1a8cff,#0072e6);
+	background-image: -o-linear-gradient(top,#1a8cff,#0072e6);
+	background-image: linear-gradient(to bottom,#1a8cff,#0072e6);
+	background-repeat: repeat-x;
+	border-color: #0072e6 #0072e6 #004c99;
+	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1a8cff',endColorstr='#ff0072e6',GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-info {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #9b59bb;
+	background-image: -moz-linear-gradient(top,#a466c2,#8d46b0);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#a466c2),to(#8d46b0));
+	background-image: -webkit-linear-gradient(top,#a466c2,#8d46b0);
+	background-image: -o-linear-gradient(top,#a466c2,#8d46b0);
+	background-image: linear-gradient(to bottom,#a466c2,#8d46b0);
+	background-repeat: repeat-x;
+	border-color: #8d46b0 #8d46b0 #613079;
+	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffa466c2',endColorstr='#ff8d46b0',GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-success {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #41bb19;
+	background-image: -moz-linear-gradient(top,#47cd1b,#379f15);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#47cd1b),to(#379f15));
+	background-image: -webkit-linear-gradient(top,#47cd1b,#379f15);
+	background-image: -o-linear-gradient(top,#47cd1b,#379f15);
+	background-image: linear-gradient(to bottom,#47cd1b,#379f15);
+	background-repeat: repeat-x;
+	border-color: #379f15 #379f15 #205c0c;
+	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff47cd1b',endColorstr='#ff379f15',GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-warning {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #fe781e;
+	background-image: -moz-linear-gradient(top,#ff8432,#fe6600);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#ff8432),to(#fe6600));
+	background-image: -webkit-linear-gradient(top,#ff8432,#fe6600);
+	background-image: -o-linear-gradient(top,#ff8432,#fe6600);
+	background-image: linear-gradient(to bottom,#ff8432,#fe6600);
+	background-repeat: repeat-x;
+	border-color: #fe6600 #fe6600 #b14700;
+	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff8432',endColorstr='#fffe6600',GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-danger {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #f50f43;
+	background-image: -moz-linear-gradient(top,#ff1a4d,#e60033);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#ff1a4d),to(#e60033));
+	background-image: -webkit-linear-gradient(top,#ff1a4d,#e60033);
+	background-image: -o-linear-gradient(top,#ff1a4d,#e60033);
+	background-image: linear-gradient(to bottom,#ff1a4d,#e60033);
+	background-repeat: repeat-x;
+	border-color: #e60033 #e60033 #902;
+	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff1a4d',endColorstr='#ffe60033',GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-inverse {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #080808;
+	background-image: -moz-linear-gradient(top,#0d0d0d,#000);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#0d0d0d),to(#000));
+	background-image: -webkit-linear-gradient(top,#0d0d0d,#000);
+	background-image: -o-linear-gradient(top,#0d0d0d,#000);
+	background-image: linear-gradient(to bottom,#0d0d0d,#000);
+	background-repeat: repeat-x;
+	border-color: #000 #000 #000;
+	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0d0d0d',endColorstr='#ff000000',GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+
+.chartcontainer{
+	width:100%;
+	height:200px;
+}
+.chartcontainer .inner{
+	width:100000px;
+	height:200px;
+}
+
+.bar{
+	float:left;
+	border:1px solid #ccc;
+	background-color: #efefef;
+	wsidth:5px;
+	bottom: 0;
+}
