@@ -17,8 +17,7 @@ function mongo_init(){
 function mdb($newdb = null){
     static $client, $mdb;
     if(!$client){
-        $con_string = "mongodb://" . config('OPENSHIFT_MONGODB_DB_USERNAME') . ":" . config('OPENSHIFT_MONGODB_DB_PASSWORD') . "@" . config('OPENSHIFT_MONGODB_DB_HOST') . ':' . config('OPENSHIFT_MONGODB_DB_PORT'); 
-        $client = new MongoClient($con_string);
+        $client = new MongoClient(mongo_connection_string());
     }
     
     if(!$mdb && $newdb){
@@ -26,8 +25,24 @@ function mdb($newdb = null){
     }
     
     if(!$mdb){
-        $db = config()->db_name;
+        $db = config('OPENSHIFT_APP_NAME');
         $mdb = $client->$db;
     }
     return $mdb;
+}
+
+
+function mongo_connection_string(){
+
+    $str = 'mongodb://';
+
+    if((config('OPENSHIFT_MONGODB_DB_USERNAME'))){
+        $str .= config('OPENSHIFT_MONGODB_DB_USERNAME') . ':';
+    }
+    if((config('OPENSHIFT_MONGODB_DB_PASSWORD'))){
+        $str .= config('OPENSHIFT_MONGODB_DB_PASSWORD') . '@';
+    }
+
+    $str .= config('OPENSHIFT_MONGODB_DB_HOST') . ':' . config('OPENSHIFT_MONGODB_DB_PORT');
+    return $str;
 }
