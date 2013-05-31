@@ -33,6 +33,7 @@ function template_global_css() {
     if($theme == 'default'){
         $css[] = 'theme/css/bootstrap.min.css';
     }else{
+        template_download_theme();
         $css[] = '/'.config('UPLOAD_PATH') . '/themes/' . $theme . '.bootstrap.min.css'; 
     }
     $css[] = 'theme/css/bootstrap-responsive.min.css';
@@ -91,31 +92,35 @@ function template_change_theme($new_theme = 'default'){
             var_set('current_theme', 'default');
             message('current theme changed to: ' . $new_theme);
         }else{
-            $path = config('UPLOAD_PATH') . '/themes/' . $new_theme . '.bootstrap.min.css';          
-            if(!file_exists($path)){
-                $res = json_decode(get_data('http://api.bootswatch.com/'));
-                $found = false;
-                foreach($res->themes as $t){
-                    if(strtolower($t->name) == $new_theme){
-                        $found = true;
-                        $data = get_data($t->cssMin);
-                        file_put_contents($path, $data);
-                        var_set('current_theme', $new_theme);
-                        message('current theme changed to: ' . $new_theme);
-                    }
-                }
-                if(!$found){
-                    message($new_theme . ' Doesn\'t appear to be a valid theme');
-                }
-            }else{
-                var_set('current_theme', $new_theme);
-                message('current theme changed to: ' . $new_theme);
-            }
+            template_download_theme($new_theme);
         }   
     }else{
         message($new_theme . ' theme is already being used');
     }
     redirect('/');   
+}
+
+function template_download_theme($theme = null){
+    if(is_null($theme)){
+        $theme = var_get('current_theme', 'default');
+    }
+    $path = config('UPLOAD_PATH') . '/themes/' . $theme . '.bootstrap.min.css';          
+    if(!file_exists($path)){
+        $res = json_decode(get_data('http://api.bootswatch.com/'));
+        $found = false;
+        foreach($res->themes as $t){
+            if(strtolower($t->name) == $theme){
+                $found = true;
+                $data = get_data($t->cssMin);
+                file_put_contents($path, $data);
+                var_set('current_theme', $theme);
+                message('current theme changed to: ' . $theme);
+            }
+        }
+        if(!$found){
+            message($theme . ' Doesn\'t appear to be a valid theme');
+        }
+    }
 }
 
 

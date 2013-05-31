@@ -21,6 +21,6 @@ define('DEBUG_LEVEL', 0);
 define('TRACE', true);
 
 //APIS
-define('INSTAGRAM_ID', '09916b2de1c940bc9b2d1df04f94d67c');
-define('INSTAGRAM_SECRET', '30b8dd872c5148adb3f1230706c2eef1');
+define('INSTAGRAM_ID', 'db6b0369a5d140f3b49b0524d78ec32a');
+define('INSTAGRAM_SECRET', 'e3a13306584d4cdfa878479008e0d4b7');
 ?>
