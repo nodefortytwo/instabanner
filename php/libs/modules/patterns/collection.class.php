@@ -10,7 +10,7 @@ class Collection implements Iterator{
         }
         
         $this->search = $search;
-        $this->limit = 10;
+        $this->limit = $limit;
         $this->sort = $sort;
         $this->fragment = $fragment;
 
