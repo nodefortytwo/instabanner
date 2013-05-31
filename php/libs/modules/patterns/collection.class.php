@@ -46,8 +46,6 @@ class Collection implements Iterator{
             $this->cursor->limit($this->limit);
         }
 
-        //$this->cnt = $this->cursor->count();
-
     }
 
     function render($style = 'table', $args = array()) {
@@ -172,11 +170,12 @@ class Collection implements Iterator{
     function rand_skip(){
         $total_records = $this->cursor->count();
         
-        if(($this->limit) < $total_records){
+        if(is_numeric($this->limit) && $this->limit < $total_records){
             $limit = $this->limit;
         }else{
             $limit = $total_records;
         }
+
 
         if(count($this->rand_used) >= $limit){
             //we have run out of things so return an invalid skip
