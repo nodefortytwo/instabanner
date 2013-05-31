@@ -19,6 +19,19 @@ class InstagramUser extends MongoBase{
 		$this->media = new InstagramMediaCollection($search);
 		return $this->media;
 	}
+
+	public function media_search($search, $limit, $sort = null){
+		$search = array('user.id' => $this['_id']);
+		$this->media = new InstagramMediaCollection($search, $limit);
+		return $this->media;
+	}
+
+	public function get_media_random(){
+
+		$m = $this->media;
+		$m->random = true;
+		return $m;
+	}
 }
 
 class InstagramUserMediaPull{

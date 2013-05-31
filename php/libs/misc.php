@@ -313,4 +313,24 @@ function normalise($array){
     return $array;
 }
 
+function find_factors($n){
+    $factors = array();
+    for ($i = 1; $i <= $n; $i++){
+        
+        if(($n % $i) == 0){
+            $factors[] = $i;
+        }elseif (($n / $i) == 1){
+            $factors[] = $i;
+        }
+        
+    }
+    
+    return $factors;
+}
+
+function common_factors($x, $y){
+    $x = find_factors($x);
+    $y = find_factors($y);
+    return array_values(array_intersect($x, $y));
+}
 ?>

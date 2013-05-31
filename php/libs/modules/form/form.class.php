@@ -193,6 +193,76 @@ class FormItemTextArea extends FormItem {
 
 }
 
+class FormItemSelect extends FormItem {
+    function render(){
+        //some required defaults
+        if (!isset($this['class'])) {
+            $this['class'] = 'span12';
+        }
+        if (!isset($this['id'])) {
+            $this['id'] = rand_str();
+        }
+
+        $html = '<div class="' . $this['class'] . '">';
+        if ($this['label']) {
+            $html .= '<div class="control-group">';
+            $html .= '<label class="control-label" for="' . $this['id'] . '">' . $this['label'] . '</label>';
+            $html .= '<div class="controls">';
+        }
+        
+        $html .= '<select id="' . $this['id'] . '" name="' . $this['id'] . '" placeholder="' . $this['placeholder'] . '" class="span12" style="height:'.$this['height'].'px;">';
+
+        foreach($this['options'] as $key=>$value){
+            $html .= '<option value="' . $key . '">' . $value . '</option>';
+        }
+
+        $html .= '</select>';
+        
+        if ($this['label']) {
+            $html .= '</div>'. "\n";
+            $html .= '</div>'. "\n";
+        }
+        $html .= '</div>';
+        return $html;
+    }
+}
+
+class FormItemRadio extends FormItem {
+    function render(){
+        //some required defaults
+        if (!isset($this['class'])) {
+            $this['class'] = 'span12';
+        }
+        if (!isset($this['id'])) {
+            $this['id'] = rand_str();
+        }
+
+        $html = '<div class="' . $this['class'] . '">';
+        if ($this['label']) {
+            $html .= '<div class="control-group">';
+            $html .= '<label class="control-label" for="' . $this['id'] . '">' . $this['label'] . '</label>';
+            $html .= '<div class="controls">';
+        }
+        $c = 0;
+        foreach($this['options'] as $key=>$value){
+            if($c == 0){
+                $selected  = 'checked="checked"';
+            }else{
+                $selected = '';
+            }
+            $html .= '<label class="radio '.$this['option_label_class'].'"><input type="radio" group="'.$this['id'].'" name="' . $this['id'] . '" value="'.$key.'" '.$selected.'/>' . $value . '</label>';
+            $c++;
+        }
+
+        if ($this['label']) {
+            $html .= '</div>'. "\n";
+            $html .= '</div>'. "\n";
+        }
+        $html .= '</div>';
+        return $html;
+    }
+}
+
 class FormItemFile extends FormItem {
 
     function render() {

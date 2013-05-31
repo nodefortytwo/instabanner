@@ -63,13 +63,14 @@ function instagram_user(){
 	$vars = array(
 			'username' => $user['username'],
 			'media_count' => $user->media->cnt,
-			'pull_media' => l('Pull Media', '/instagram/pull/media', 'btn')
+			'pull_media' => l('Load Images', '/instagram/pull/media', 'btn'),
+			'image_create_form' => image_create_form()
 		);
 	$content->add_variable($vars);
 	$page = new Template();
 
 	$page->c($content->render());
-	$page->c($user->media->render('gallery'));
+	$page->c($user->media_random->render('gallery'));
 
 	return $page->render();
 }

@@ -1,8 +1,8 @@
 <?php
 class Collection implements Iterator{
     protected $collection, $default_cols = array('ID' => '_id'), $class_name = null, $position = 0;
-    private $cursor;
-    public $search = array();
+    private $cursor, $rand_used = array();
+    public $search = array(), $random = false;
 
     function __construct($search = null, $limit = null, $sort = null, $fragment = null) {
         if(!$this->collection || !$this->class_name){
@@ -10,7 +10,7 @@ class Collection implements Iterator{
         }
         
         $this->search = $search;
-        $this->limit = $limit;
+        $this->limit = 10;
         $this->sort = $sort;
         $this->fragment = $fragment;
 
@@ -40,14 +40,16 @@ class Collection implements Iterator{
         if($this->sort){
             $this->cursor->sort($this->sort);
         }
-        if($this->limit){
+
+        //don't limit random queries
+        if($this->limit && !$this->random){
             $this->cursor->limit($this->limit);
         }
 
-        $this->cnt = $this->cursor->count();
+        //$this->cnt = $this->cursor->count();
 
     }
-    
+
     function render($style = 'table', $args = array()) {
         if(method_exists($this, 'render_' . $style)){
             return call_user_func(array(
@@ -107,7 +109,7 @@ class Collection implements Iterator{
     function from_objects($objects) {
         //this is an experiment, a standard array should behave in almost the same way a mongo cursor so this should work.
         $this->cursor = new PseudoCursor($objects);
-        $this->cnt = $this->cursor->count();
+        //$this->cnt = $this->cursor->count();
     }
     
     function get_ids(){
@@ -119,11 +121,19 @@ class Collection implements Iterator{
     }
     
     function get_cnt(){
-        $this->cnt = $this->cursor->count();
+
+        if($this->random && is_numeric($this->limit) && ($this->limit < $this->cursor->count())){
+            return $this->limit;
+        }else{
+            return $this->cursor->count(true);   
+        }
+
     }
 
     //iterator stuff
     function rewind() {
+
+        $this->rand_used = array();
         $this->position = 0;
         $this->cursor->reset();
         $this->next();
@@ -142,12 +152,43 @@ class Collection implements Iterator{
     }
 
     function next() {
-       $this->cursor->next();
-       $this->position++;
+        if($this->random == true){
+            //move to zero
+            $this->cursor->reset();
+            //skip forward
+            $this->cursor->skip($this->rand_skip());
+            //move the cursor to the new item
+            $this->cursor->next();
+        }else{ 
+            $this->cursor->next();
+            $this->position++;
+        }
     }
 
     function valid() {
         return $this->cursor->valid();
+    }
+
+    function rand_skip(){
+        $total_records = $this->cursor->count();
+        
+        if(($this->limit) < $total_records){
+            $limit = $this->limit;
+        }else{
+            $limit = $total_records;
+        }
+
+        if(count($this->rand_used) >= $limit){
+            //we have run out of things so return an invalid skip
+            return $total_records;
+        }
+
+        $rand = rand(0, $total_records-1);
+        while(in_array($rand, $this->rand_used)){
+            $rand = rand(0, $total_records-1);
+        }
+        $this->rand_used[] = $rand;
+        return $rand;
     }
 }
 
