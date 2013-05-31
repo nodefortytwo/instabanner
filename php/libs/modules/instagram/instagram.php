@@ -78,4 +78,5 @@ function instagram_user(){
 function instagram_pull_media(){
 	$user = current_user();
 	$user->pull_media();
+	redirect('/user');
 }
