@@ -4,6 +4,7 @@ function image_routes(){
 	$routes= array();
 
 	$routes['image/create'] = array('callback' => 'image_create');
+	$routes['image/view'] = array('callback' => 'image_view');
 
 	return $routes;
 }
@@ -51,10 +52,10 @@ function image_types($id = null){
 	$images['google'] = array(
 						'id' => 'google',
 						'title' => 'Google cover photo',
-						'width' => 890,
-						'height' => 180,
+						'width' => 2120,
+						'height' => 1192,
 						'target_size' => 150,
-						'cols' => 4);
+						'cols' => 8);
 	if($id && isset($images[$id])){
 		return $images[$id];
 	}
@@ -97,6 +98,22 @@ function image_create_form(){
 	return '<div class="row-fluid"><div class="span12 well">'.$form->render() . '</div></div>';
 }
 
+function image_view($iid){
+	$path = '/' . config('UPLOAD_PATH') . '/' . $iid . '.jpg';
+
+	$vars = array(
+		'image_path' => $path
+		);
+
+	$page = new Template();
+	$content = new Template(false);
+	$content->load_template('templates/image.view.html', 'image');
+	$content->add_variable($vars);
+	$page->c($content->render());
+
+	return $page->render();
+}
+
 function image_create(){
 	
 	$type = get('type');
@@ -108,87 +125,22 @@ function image_create(){
 
 	$type = image_types($type);
 
-	//instagram images are square (shock horror!) so we need to find the common factors
-	//between the dest image height and width so we don't cur off images, this won't always be 
-	//possible. when that happens we choose a decent size and cut off images at the bottom
-
-	$target_size = $type['target_size'];
-
-	$factors = common_factors($type['width'], $type['height']);
-
-	if(count($factors) > 1){
-		//we have some common factors (other than 1 of course)
-		//find the nearest one to our target size
-		$dif = 1000000;//stupid i know
-		$match_id = 0;
-		foreach($factors as $key => $f){
-			if($f < 100){
-				continue;
-			}
-			$d = abs($f - $target_size);
-			if($d < $dif){
-				$match_id = $key;
-				$dif = $d;
-			}
-		}
-		$size = ceil($factors[$match_id] / 2);
-	}
-
-	if(!isset($size)){
-		//we couldn't find a factor, so lets width match
-		$size = ceil($type['width'] / round($type['width'] / $target_size));
-		//we don't want fractions becuase, you know, pixels, so ceil to avoid a black line;
-	}
-
-
-	$cols = $type['width'] / $size;
-	$rows = $type['height'] / $size;
-	$images_required = $cols * $rows;
-	
-
-	//get the images we need
 	$user = current_user();
 	if($order == 'rand'){
 		$images = $user->media_random;
-		$images->limit = $images_required;
 	}else{
-		$images = $user->media_search(array(), $images_required);
+		$images = $user->media_search(array());
 	}
-	//if we don't have enough images to complete the image give up.
-	if($images->cnt < $images_required){
-		message('This image type requires ' . $images_required . ' images to complete, get snapping!');
-		redirect('/user');
-	}
-	//yay we have enough images! Load them into memory
-	$imgs = array();
-	foreach($images as $image){
-		$imgs[] = array($image['_id'], $image['images.low_resolution.url']);
-	}
-	unset($images);//destroy the collection
 
-	//loop through every col/row
-	$map = array();
-	$iid = 0;
-	$im = imagecreatetruecolor($type['width'], $type['height']);
-	for ($r = 0; $r < $rows; $r++) {
-		for ($c = 0; $c < $cols; $c++) {
-			$img = $imgs[$iid];
-			$iid++;
-			$cur_img = imagecreatefromjpeg($img[1]);
-			$new_size = $size;
-			$x = $new_size * $c;
-			$y = $new_size * $r;
-			$map[] = array($x, $y, $x + $new_size, $y + $new_size, $image);
-			imagecopyresized($im, $cur_img, $x, $y, 0, 0, $new_size, $new_size, 306, 306);
-		}
-	}
-	
-	header('Content-type: image/jpeg');
-	imagejpeg($im);
-	die();
+	$args = array(
+			'type' => $type
+		);
 
-	var_dump($images->cnt);
+	$id = $images->render('image', $args);
 
-	var_dump($cols, $rows, $images_required);
+	$user['generated_images.[]'] = $id;
+	$user->save();
+
+	redirect('/image/view/~/' . $id);
 }
 

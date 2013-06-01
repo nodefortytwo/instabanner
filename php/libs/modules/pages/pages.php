@@ -15,6 +15,10 @@ function pages_routes() {
 }
 
 function pages_homepage() {
+    $user = current_user();
+    if(is_object($user)){
+        redirect('/user');
+    }
     $page = new Template();
     $page->title = "Welcome";
     $page->mkd('templates/index.mkd', 'pages');

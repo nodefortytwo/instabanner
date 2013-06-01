@@ -48,15 +48,35 @@ function instagram_callback(){
 }
 
 function current_user(){
-	$user = new InstagramUser(session()->instagram->user->id);
-	if(!$user->exists){
-		$user->update_from_session();	
+	if(!is_null(session()->instagram)){
+		$user = new InstagramUser(session()->instagram->user->id);
+		if(!$user->exists){
+			$user->update_from_session();	
+		}
+		return $user;
+	}else{
+		return false;
 	}
-	return $user;
 }
 
 function instagram_user(){
 	$user = current_user();
+	$history = '';
+	if(is_array($user['generated_images'])){
+		$history .= '<div class="row-fluid">';
+		$history .= '<strong> Checkout some of your previous instabanners</strong>';
+		$history .= '<div class="row-fluid"><div class="span12 well">';
+
+		$himgs = $user['generated_images'];
+		$himgs = array_reverse($himgs);
+		$himgs = array_splice($himgs, 0, 5);
+
+		foreach($himgs as $img){			
+			$history .= l($img, get_url('/image/view/~/' . $img)).'<br/>';
+		}
+		$history .= '</div></div>';
+		$history .= '</div>';
+	}
 
 	$content = new Template(false);
 	$content->load_template('templates/user.html', 'instagram');
@@ -64,7 +84,8 @@ function instagram_user(){
 			'username' => $user['username'],
 			'media_count' => $user->media->cnt,
 			'pull_media' => l('Load Images', '/instagram/pull/media', 'btn'),
-			'image_create_form' => image_create_form()
+			'image_create_form' => image_create_form(),
+			'history' => $history
 		);
 	$content->add_variable($vars);
 	$page = new Template();

@@ -46,4 +46,82 @@ class InstagramMediaCollection extends Collection{
 		return $html;
 	}
 
+
+	function render_image($args = array()){
+		$args = $args['1'];
+		if(!isset($args['type'])){
+			throw new exception('Specify image type when rendering image');
+		}
+
+		$type = $args['type'];
+
+		$instagram_sizes = array('images.thumbnail.url' => 150, 'images.low_resolution.url' => 306, 'images.standard_resolution.url' => 612);
+
+		$target_size = $type['width'] / $type['cols'];
+
+		$factors = common_factors($type['width'], $type['height']);
+
+		if(count($factors) > 1){
+			//we have some common factors (other than 1 of course)
+			//find the nearest one to our target size
+			$dif = 1000000;//stupid i know
+			$match_id = 0;
+			foreach($factors as $key => $f){
+				$d = abs($f - $target_size);
+				if($d < $dif){
+					$match_id = $key;
+					$dif = $d;
+				}
+			}
+			$size = ceil($factors[$match_id] / 2);
+		}
+
+		if ($size < 100){
+			$size = ceil($target_size);
+		}
+
+		$dif = 100000;
+		foreach($instagram_sizes as $key => $f){
+			$d = abs($f - $target_size);
+			if($d < $dif){
+				$instagram_type = $key;
+				$dif = $d;
+			}
+		}
+
+		$cols = ceil($type['width'] / $size);
+		$rows = ceil($type['height'] / $size);
+		$images_required = $cols * $rows;
+
+
+		//yay we have enough images! Load them into memory
+		$imgs = array();
+		foreach($this as $image){
+			$imgs[] = array($image['_id'], $image[$instagram_type]);
+		}
+
+		$id = md5(serialize($imgs));
+		$path = config('UPLOAD_PATH') . '/' . $id . '.jpg';
+
+		//loop through every col/row
+		$map = array();
+		$iid = 0;
+		$im = imagecreatetruecolor($type['width'], $type['height']);
+		for ($r = 0; $r < $rows; $r++) {
+			for ($c = 0; $c < $cols; $c++) {
+				$img = $imgs[$iid];
+				$iid++;
+				$cur_img = imagecreatefromjpeg($img[1]);
+				$new_size = $size;
+				$x = $new_size * $c;
+				$y = $new_size * $r;
+				$map[] = array($x, $y, $x + $new_size, $y + $new_size, $image);
+				imagecopyresized($im, $cur_img, $x, $y, 0, 0, $new_size, $new_size, imagesx($cur_img), imagesy($cur_img));
+			}
+		}
+		imagejpeg($im, $path, 100);
+		return $id;
+
+	}
+
 }
