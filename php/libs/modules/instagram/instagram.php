@@ -92,7 +92,7 @@ function instagram_user(){
 		);
 
 	if ($user->media->cnt < 64){
-		unset($vars['image_create_form']);
+		$vars['image_create_form'] = '<p>Before you can create an instabanner, you need to '.l('load your Instagram images', '/instagram/pull/media').' into instabanner</p>';
 	}
 
 	$content->add_variable($vars);
