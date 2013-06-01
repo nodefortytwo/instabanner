@@ -3,7 +3,7 @@
 class Template
 {
     public $html = '', $close, $content, $title, $messages, $js_settings = array(), $css = array(), $js = array(), $less = array();
-    private $template, $current_template, $vars, $fullpage = true;
+    private $template, $current_template = 'root', $vars, $fullpage = true;
 
     public function __construct($fullpage = true) {
 
@@ -51,6 +51,16 @@ class Template
         foreach ($this->template as $template) {
             $this->vars = $template['vars'];
             $tmp = $this->get_template($template['file']);
+            $ext = explode('.',$template['file']);
+            $ext = array_pop($ext);
+            
+            switch($ext){
+                case 'mkd':
+                    $tmp = $this->mkd($tmp);
+                break;
+            }
+
+
             foreach ($template['vars'] as $variable => $value) {
                 
                 if (is_null($value) || empty($value)) {$value = '';
@@ -274,7 +284,7 @@ class Template
             $c = file_get_contents(sys()->cwd . module_get_path($module) . '' . $content);
             $this->c(\Michelf\Markdown::defaultTransform($c));
         }else{
-            $this->c(\Michelf\Markdown::defaultTransform($content));
+            return (\Michelf\Markdown::defaultTransform($content));
         }
 
     }

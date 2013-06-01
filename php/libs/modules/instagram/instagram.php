@@ -14,7 +14,7 @@ function instagram_routes(){
 }
 
 function instagram_connect_button(){
-	return l('Connect with Instagram', '/instagram/connect/', 'btn btn-primary');
+	return l('Connect with Instagram', '/instagram/connect/', 'btn btn-primary btn-large');
 }
 
 function instagram_connect(){

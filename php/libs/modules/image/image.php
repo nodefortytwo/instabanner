@@ -151,3 +151,24 @@ function image_create(){
 	redirect('/image/view/~/' . $id);
 }
 
+
+function homepage_image(){
+
+	$id = var_get('homepage_image', null);
+	if($id && image_exists($id)){
+		return $id;
+	}
+
+	$image = array(
+			'width' => 1600,
+			'height' => 320,
+			'cols' => 10
+		);
+
+	$images = new InstagramMediaCollection(array());
+	$images->random = true;
+	$id = $images->render('image', array('type' => $image));
+	var_set('homepage_image', $id);
+	return $id;
+}
+

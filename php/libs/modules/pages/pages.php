@@ -20,9 +20,11 @@ function pages_homepage() {
         redirect('/user');
     }
     $page = new Template();
+
     $page->title = "Welcome";
-    $page->mkd('templates/index.mkd', 'pages');
-    $page->c(instagram_connect_button());
+    $page->load_template('templates/index.mkd', 'pages');
+    $page->add_variable(array('homepage_image' => '<img src="/'.image_url(homepage_image()).'" width="100%" class="img-polaroid"/>', 'connect_button' => instagram_connect_button()));
+    
     return $page->render();
 }
 
