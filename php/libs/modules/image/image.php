@@ -63,7 +63,7 @@ function image_types($id = null){
 }
 
 function image_url($id){
-	return config('UPLOAD_PATH') . '/' . $iid . '.jpg';
+	return config('UPLOAD_PATH') . '/' . $id . '.jpg';
 }
 
 function image_exists($id){
