@@ -96,8 +96,13 @@ class InstagramMediaCollection extends Collection{
 
 		//yay we have enough images! Load them into memory
 		$imgs = array();
+		$c = 0;
 		foreach($this as $image){
+			if($c > $images_required){
+				break;
+			}
 			$imgs[] = array($image['_id'], $image[$instagram_type]);
+			$c++;
 		}
 
 		$id = md5(serialize($imgs));

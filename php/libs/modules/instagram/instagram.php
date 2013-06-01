@@ -71,7 +71,10 @@ function instagram_user(){
 		$himgs = array_reverse($himgs);
 		$himgs = array_splice($himgs, 0, 5);
 
-		foreach($himgs as $img){			
+		foreach($himgs as $img){
+			if(!image_exists($img)){
+				continue;
+			}			
 			$history .= l($img, get_url('/image/view/~/' . $img)).'<br/>';
 		}
 		$history .= '</div></div>';
@@ -87,6 +90,11 @@ function instagram_user(){
 			'image_create_form' => image_create_form(),
 			'history' => $history
 		);
+
+	if ($user->media->cnt < 64){
+		unset($vars['image_create_form']);
+	}
+
 	$content->add_variable($vars);
 	$page = new Template();
 

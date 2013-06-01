@@ -62,6 +62,13 @@ function image_types($id = null){
 	return $images;
 }
 
+function image_url($id){
+	return config('UPLOAD_PATH') . '/' . $iid . '.jpg';
+}
+
+function image_exists($id){
+	return file_exists(image_url($id));
+}
 
 function image_create_form(){
 
@@ -129,7 +136,7 @@ function image_create(){
 	if($order == 'rand'){
 		$images = $user->media_random;
 	}else{
-		$images = $user->media_search(array());
+		$images = $user->media;
 	}
 
 	$args = array(
