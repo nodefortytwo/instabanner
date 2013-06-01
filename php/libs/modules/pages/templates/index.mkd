@@ -1,2 +1,2 @@
 # Welcome to the instabanner
-Instabanner allows you to create really banner and profile backgrounds using your instagram library. Connect with instagram below to get started
+Instabanner allows you to create really simple banners and profile backgrounds for your social profiles using your instagram library. Connect with instagram below to get started.
