@@ -106,7 +106,7 @@ class InstagramMediaCollection extends Collection{
 		}
 
 		$id = md5(serialize($imgs));
-		$path = config('UPLOAD_PATH') . '/' . $id . '.jpg';
+		$path = config('UPLOAD_PATH') . '/' . $id . '.png';
 
 		//loop through every col/row
 		$map = array();
@@ -121,10 +121,10 @@ class InstagramMediaCollection extends Collection{
 				$x = $new_size * $c;
 				$y = $new_size * $r;
 				$map[] = array($x, $y, $x + $new_size, $y + $new_size, $image);
-				imagecopyresized($im, $cur_img, $x, $y, 0, 0, $new_size, $new_size, imagesx($cur_img), imagesy($cur_img));
+				imagecopyresampled($im, $cur_img, $x, $y, 0, 0, $new_size, $new_size, imagesx($cur_img), imagesy($cur_img));
 			}
 		}
-		imagejpeg($im, $path, 100);
+		imagepng($im, $path, 0);
 		return $id;
 
 	}

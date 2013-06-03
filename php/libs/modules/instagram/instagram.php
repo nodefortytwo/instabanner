@@ -61,6 +61,9 @@ function current_user(){
 
 function instagram_user(){
 	$user = current_user();
+	if(!is_object($user)){
+		redirect('/');
+	}
 	$history = '';
 	if(is_array($user['generated_images'])){
 		$history .= '<div class="row-fluid">';

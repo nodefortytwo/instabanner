@@ -63,7 +63,7 @@ function image_types($id = null){
 }
 
 function image_url($id){
-	return config('UPLOAD_PATH') . '/' . $id . '.jpg';
+	return config('UPLOAD_PATH') . '/' . $id . '.png';
 }
 
 function image_exists($id){
@@ -106,10 +106,14 @@ function image_create_form(){
 }
 
 function image_view($iid){
-	$path = '/' . config('UPLOAD_PATH') . '/' . $iid . '.jpg';
+	$path =image_url($iid);
+	if(!image_exists($iid)){
+		message('That image no longer exists, sorry :(');
+		redirect('/user');
+	}
 
 	$vars = array(
-		'image_path' => $path
+		'image_path' => '/'.$path
 		);
 
 	$page = new Template();
