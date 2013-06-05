@@ -5,6 +5,7 @@ function image_routes(){
 
 	$routes['image/create'] = array('callback' => 'image_create');
 	$routes['image/view'] = array('callback' => 'image_view');
+	$routes['image/custom'] = array('callback' => 'image_custom_layout');
 
 	return $routes;
 }
@@ -52,8 +53,8 @@ function image_types($id = null){
 	$images['google'] = array(
 						'id' => 'google',
 						'title' => 'Google cover photo',
-						'width' => 2120,
-						'height' => 1192,
+						'width' => 2100,
+						'height' => 1200,
 						'target_size' => 150,
 						'cols' => 8);
 	if($id && isset($images[$id])){
@@ -174,5 +175,58 @@ function homepage_image(){
 	$id = $images->render('image', array('type' => $image));
 	var_set('homepage_image', $id);
 	return $id;
+}
+
+function image_custom_layout(){
+	$options = array();
+	foreach(image_types() as $key=>$image){
+		$options[$key] = $image['title'];
+	}
+	$def = image_types();
+	shuffle($def);
+	$def = array_shift($def);
+
+	$options['custom'] = 'Custom';
+	$form = new Form(array('class' => 'form-inline span9'));
+	$form->e(array(
+		'type' => 'select',
+		'id' => 'type',
+		'options' => $options,
+		'selected' => 'custom',
+		'label' => 'Starting Image Type',
+		'class' => 'span4'
+		));
+	$form->e(array(
+		'type' => 'text',
+		'id' => 'width',
+		'options' => array('rand' => 'Random', 'latest' => 'Latest'),
+		'label' => 'Width',
+		'option_label_class' => 'inline',
+		'class' => 'span4',
+		'default' => $def['width']
+		));
+	$form->e(array(
+		'type' => 'text',
+		'id' => 'height',
+		'options' => array('rand' => 'Random', 'latest' => 'Latest'),
+		'label' => 'Height',
+		'option_label_class' => 'inline',
+		'class' => 'span4',
+		'default' => $def['height']
+		));
+	$vars = array();
+	$vars['form'] = $form->render();
+
+	$page = new Template();
+	$page->add_js('js/jquery-ui-1.10.3.custom.min.js', 'image');
+	$page->add_js('js/custom_layout.js', 'image');
+	$page->add_css('css/jquery-ui-1.10.3.custom.min.css', 'image');
+	$page->add_css('css/custom_grid.css', 'image');
+	$content = new Template(false);
+	$content->load_template('templates/custom_layout.html', 'image');
+	$content->add_variable($vars);
+	$page->c($content->render());
+
+	return $page->render();
 }
 

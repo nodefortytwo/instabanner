@@ -151,7 +151,7 @@ class FormItemText extends FormItem {
             $html .= '<div class="controls">';
         }
         
-        $html .= '<input type="text" id="' . $this['id'] . '" name="' . $this['id'] . '" placeholder="' . $this['placeholder'] . '" class="span12">';
+        $html .= '<input type="text" id="' . $this['id'] . '" name="' . $this['id'] . '" placeholder="' . $this['placeholder'] . '" class="span12" value="'.$this['default'].'">';
         
         if ($this['label']) {
             $html .= '</div>';
@@ -209,11 +209,16 @@ class FormItemSelect extends FormItem {
             $html .= '<label class="control-label" for="' . $this['id'] . '">' . $this['label'] . '</label>';
             $html .= '<div class="controls">';
         }
+
         
         $html .= '<select id="' . $this['id'] . '" name="' . $this['id'] . '" placeholder="' . $this['placeholder'] . '" class="span12" style="height:'.$this['height'].'px;">';
 
         foreach($this['options'] as $key=>$value){
-            $html .= '<option value="' . $key . '">' . $value . '</option>';
+            $selected = '';
+            if(isset($this['selected']) && $key == $this['selected']){
+                $selected = 'selected=selected';
+            }
+            $html .= '<option value="' . $key . '"'.$selected.'>' . $value . '</option>';
         }
 
         $html .= '</select>';
