@@ -7,6 +7,20 @@
         $('#height').keyup(function(){
             draw_grid();
         })
+        $('#type').change(function(){
+            var type = $(this).val();
+            var url = '/image/get_types/~/' + type;
+            var options = {
+                url: url,
+                dataType: 'json'
+            };
+            $.ajax(options).done(function(data){
+                console.log(data);
+                $('#height').val(data.height);
+                $('#width').val(data.width);
+                draw_grid();
+            });
+        })
 	});
 })(jQuery);
 var imagecount = 0;
@@ -59,9 +73,29 @@ function draw_grid(selected){
                 validateImages();
             }else{
                 
-            }
-
-            
+            }  
+        },
+        unselecting:function( event, ui ) {
+            var selection = [];
+            $( ".grid-container #grid li.ui-selecting" ).each(function(){
+                selection.push($(this).attr('id'));
+            });
+            if(isSquare(selection)){
+                $('.grid-container #grid li.ui-bad-selection').removeClass('ui-bad-selection');
+            }else{
+                $('.grid-container #grid li.ui-selecting').addClass('ui-bad-selection');
+            } 
+        },
+        selecting: function( event, ui ) {
+            var selection = [];
+            $( ".grid-container #grid li.ui-selecting" ).each(function(){
+                selection.push($(this).attr('id'));
+            });
+            if(isSquare(selection)){
+                $('.grid-container #grid li.ui-bad-selection').removeClass('ui-bad-selection');
+            }else{
+                $('.grid-container #grid li.ui-selecting').addClass('ui-bad-selection');
+            } 
         }
     });
 }

@@ -25,3 +25,7 @@
 #grid li.ui-selecting{
 	background-color:blue;
 }
+
+#grid li.ui-bad-selection{
+	background-color: #ccc;
+}

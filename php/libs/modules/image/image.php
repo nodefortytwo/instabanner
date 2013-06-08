@@ -6,6 +6,8 @@ function image_routes(){
 	$routes['image/create'] = array('callback' => 'image_create');
 	$routes['image/view'] = array('callback' => 'image_view');
 	$routes['image/custom'] = array('callback' => 'image_custom_layout');
+	$routes['image/get_types'] = array('callback' => 'get_image_types');
+	
 
 	return $routes;
 }
@@ -61,6 +63,10 @@ function image_types($id = null){
 		return $images[$id];
 	}
 	return $images;
+}
+
+function get_image_types($id = null){
+	return json_encode(image_types($id));
 }
 
 function image_url($id){
@@ -183,7 +189,7 @@ function image_custom_layout(){
 		$options[$key] = $image['title'];
 	}
 	$def = image_types();
-	shuffle($def);
+	//shuffle($def);
 	$def = array_shift($def);
 
 	$options['custom'] = 'Custom';
@@ -192,7 +198,7 @@ function image_custom_layout(){
 		'type' => 'select',
 		'id' => 'type',
 		'options' => $options,
-		'selected' => 'custom',
+		'selected' => $def['id'],
 		'label' => 'Starting Image Type',
 		'class' => 'span4'
 		));
