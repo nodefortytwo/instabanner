@@ -12,9 +12,9 @@
 	margin: 0;
 	padding: 0;
 	background-color: #efefef;
-	-moz-box-shadow: inset 0 0 0 1px #000;
-	-webkit-box-shadow: inset 0 0 0 1px #000;
-	box-shadow: inset 0 0 0 1px #000;
+	-moz-box-shadow: inset 0 0 0 1px #fff;
+	-webkit-box-shadow: inset 0 0 0 1px #fff;
+	box-shadow: inset 0 0 0 1px #fff;
 }
 
 
@@ -23,7 +23,7 @@
 }
 
 #grid li.ui-selecting{
-	background-color:blue;
+	background-color:green;
 }
 
 #grid li.ui-bad-selection{

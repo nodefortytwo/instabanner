@@ -333,4 +333,17 @@ function common_factors($x, $y){
     $y = find_factors($y);
     return array_values(array_intersect($x, $y));
 }
+
+function find_nearest($target, $options){
+    $match_id = null;
+    $dif = 0;
+    foreach($options as $key => $f){
+        $d = abs($f - $target);
+        if($d < $dif || $dif == 0){
+            $match_id = $key;
+            $dif = $d;
+        }
+    }
+    return $match_id;
+}
 ?>

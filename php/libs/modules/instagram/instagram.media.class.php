@@ -12,6 +12,20 @@ class InstagramMedia extends MongoBase{
 		$this->save();
 		$this->load_from_id();
 	}
+
+	public function to_gd($size = 306){
+		$sizes = array('images.thumbnail.url' => 150, 'images.low_resolution.url' => 306, 'images.standard_resolution.url' => 612);
+		$size_key = 'images.standard_resolution.url';
+		//150 or 306 might be better.
+		foreach($sizes as $key=>$s){
+			if($s > $size){
+				$size_key = $key;
+			}
+		}
+
+		$im = imagecreatefromjpeg($this[$size_key]);
+		return $im;
+	}
 }
 
 class InstagramMediaCollection extends Collection{
@@ -125,6 +139,7 @@ class InstagramMediaCollection extends Collection{
 			}
 		}
 		imagepng($im, $path, 0);
+		imagedestroy($im);
 		return $id;
 
 	}

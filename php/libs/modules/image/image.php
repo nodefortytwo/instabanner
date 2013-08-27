@@ -1,11 +1,15 @@
 <?php
-
+function image_init(){
+	require 'image.custom.class.php';
+}
 function image_routes(){
 	$routes= array();
 
 	$routes['image/create'] = array('callback' => 'image_create');
 	$routes['image/view'] = array('callback' => 'image_view');
-	$routes['image/custom'] = array('callback' => 'image_custom_layout');
+	$routes['image/custom/layouts'] = array('callback' => 'image_custom_layouts');
+	$routes['image/custom/create'] = array('callback' => 'image_custom_layout');
+	$routes['image/custom/save'] = array('callback' => 'image_custom_save');
 	$routes['image/get_types'] = array('callback' => 'get_image_types');
 	
 
@@ -132,14 +136,42 @@ function image_view($iid){
 	return $page->render();
 }
 
-function image_create(){
-	
-	$type = get('type');
-	$order = get('order');
-	if(empty($type) || empty($order)){
-		message('missing info');
-		redirect('/user');
+function image_create($id = null){
+	if(!$id){
+		$type = get('type');
+		$order = get('order');
+		if(empty($type)){
+			message('missing info');
+			redirect('/user');
+		}
+		$type = image_types($type);
+		
+		$page = new Template();
+		$page->add_js('js/select_layout.js', 'image');
+		$page->c('<h1>Choose your layout</h1>');
+		$page->c('<p>Click one of the layouts below to create your banner</p>');
+		$search = array('h'=>(string)$type['height'], 'w'=>(string)$type['width']);
+		$images = new ImageCustomCollection($search);
+		$page->c($images->render('gallery'));
+		return $page->render();
 	}
+
+	$order = 'random';
+	$page = new Template();
+	$image = new ImageCustom($id);
+
+	//$page->add_js('js/image_create.js', 'image');
+	//$page->load_template('templates/image_create.html', 'image');
+
+	$user = current_user();
+	if($order == 'random'){
+		$images = $user->media_random;
+	}else{
+		$images = $user->media;
+	}
+
+	$page->c($image->render('image_tag', array('source' => $images)));
+	return $page->render();
 
 	$type = image_types($type);
 
@@ -181,6 +213,14 @@ function homepage_image(){
 	$id = $images->render('image', array('type' => $image));
 	var_set('homepage_image', $id);
 	return $id;
+}
+
+function image_custom_layouts(){
+	$search = array('author' => current_user()->_id);
+	$images = new ImageCustomCollection($search);
+	$page = new Template();
+	$page->c($images->render('gallery'));
+	return $page->render();
 }
 
 function image_custom_layout(){
@@ -234,5 +274,22 @@ function image_custom_layout(){
 	$page->c($content->render());
 
 	return $page->render();
+}
+
+function image_custom_save(){
+	if(!empty($_POST['_id'])){
+		$image = new ImageCustom($_POST['_id']);
+	}else{
+		$image = new ImageCustom();
+	}
+	$image['author'] = current_user()->_id;
+
+	foreach($_POST as $field => $value){
+		if(!empty($value)){
+			$image[$field] = $value;
+		}
+	}
+	$image->save();
+	return json_encode(array('_id' => (string) $image->_id));
 }
 

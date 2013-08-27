@@ -141,8 +141,12 @@ class Collection implements Iterator{
         if(is_object($this->cursor->current())){
             return $this->cursor->current();
         }
-        $classname = $this->class_name;
-        return new $classname($this->cursor->current());
+        if($this->cursor->current()){
+            $classname = $this->class_name;
+            return new $classname($this->cursor->current());
+        }else{
+            return null;
+        }
     }
 
     function key() {

@@ -305,6 +305,17 @@ class MongoBase implements arrayaccess {
         return $ret;
     }
 
+    function render($style = 'table', $args = array()) {
+        if(method_exists($this, 'render_' . $style)){
+            return call_user_func(array(
+                $this,
+                'render_' . $style
+            ), $args);
+        }else{
+            throw new exception($style . ' not valid for this class');
+        }
+    }
+
 }
 
 function strip__ids($item, $key)

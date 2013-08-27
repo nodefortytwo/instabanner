@@ -1,4 +1,5 @@
 (function($) {
+    var _id = '';
 	$(document).ready(function() {
 		draw_grid();
         $('#width').keyup(function(){
@@ -9,7 +10,7 @@
         })
         $('#type').change(function(){
             var type = $(this).val();
-            var url = '/image/get_types/~/' + type;
+            var url = '/image/get_types/~/' + type + '/';
             var options = {
                 url: url,
                 dataType: 'json'
@@ -19,6 +20,31 @@
                 $('#height').val(data.height);
                 $('#width').val(data.width);
                 draw_grid();
+            });
+        })
+
+        $('#save').click(function(e){
+            e.preventDefault();
+            var images = getImages();
+
+            var data = {
+                _id: _id,
+                w: parseInt($('#width').val()),
+                h: parseInt($('#height').val()),
+                gs: $('.grid-size-buttons .active').html(),
+                layout: images
+            };
+
+
+            $.ajax({
+              type: "POST",
+              url: "/image/custom/save/",
+              data: data,
+              success: function(data){
+                _id = data._id;
+
+              },
+              dataType: "json"
             });
         })
 	});
@@ -31,7 +57,7 @@ function draw_grid(selected){
     var buttons = render_button_grp(factors);
     $('.grid-size-buttons').html(buttons);
     $('.grid-size-buttons button').click(function(){
-        draw_grid($(this).html());
+        draw_grid($(this).attr('id'));
     })
     if(selected){
         $('.grid-size-buttons button').removeClass('active');
@@ -46,6 +72,11 @@ function draw_grid(selected){
 
     var aratio = h/w;
 
+    var gcount = cols * rows;
+    if(gcount > 1000){
+        return;
+    }
+
     html = $('<ol id="grid"></ol>');
     $('.grid-container').html(html);
     for(var r=0;r<rows;r++){
@@ -54,7 +85,7 @@ function draw_grid(selected){
         }
     }
 
-    if(($('.grid-container ol').width()*.75) > w){
+    if(($('.grid-container ol').width()) > w){
         $('.grid-container ol').width(w+'px');
     }
 
@@ -68,7 +99,7 @@ function draw_grid(selected){
             });
 
             if(isSquare(selection)){
-                $('.grid-container #grid li.ui-selected').attr('image-id', imagecount).css('background-color', getRandomColor());
+                $('.grid-container #grid li.ui-selected').attr('image-id', imagecount).css('background-color', getRandomColor()).addClass('image');
                 imagecount++;
                 validateImages();
             }else{
@@ -141,10 +172,14 @@ function render_button_grp(arry){
         if(i == selected){
             clss = 'active';
         }
-        html += '<button class="btn '+clss+'" id="'+arry[i]+'">' + arry[i] + '</button>';
+        html += '<button class="btn '+clss+'" id="'+arry[i].toString().replace('.','-')+'">' + arry[i] + '</button>';
     }
     html += '</div>';
     return html;
+}
+
+function getSelectedButton(){
+
 }
 
 function common_factors(w,h){
@@ -215,4 +250,17 @@ function getRandomColor() {
         color += letters[Math.round(Math.random() * 15)];
     }
     return color;
+}
+
+
+function getImages(){
+    var images = {};
+    $('#grid .image').each(function(){
+        var id = $(this).attr('image-id');
+        if (!images[id]){
+            images[id] = [];
+        }
+        images[id].push($(this).attr('id'));
+    })
+    return images
 }

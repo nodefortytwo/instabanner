@@ -16,7 +16,7 @@ class Config{
         }elseif(defined($var)){
             return constant($var);
         }else{
-            throw new exception($var . ' - Not Defined');
+            return null;
         }
     }
     
@@ -26,16 +26,24 @@ class Config{
     
 }
 
-function config($key = null){
-    global $config;
+function config($key = null, $val = null){
+    static $config;
     
     if(!$config){
         $config = new Config();
     }
     
     if($key){
-        return $config->$key;
+        $ret = $config->$key;
+        if(is_null($ret) && !is_null($val)){
+            return $val;
+        }elseif(!is_null($ret)){
+            return $ret;
+        }else{
+            throw new exception($key . ' - Not Defined');               
+        }
     }
     
     return $config;
 }
+?>
