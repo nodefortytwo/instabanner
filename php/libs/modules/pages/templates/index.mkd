@@ -1,6 +1,14 @@
 # Welcome to the instabanner
-{{homepage_image}}
 
-Instabanner allows you to create really simple banners and profile backgrounds for your social profiles using your instagram library. Connect with instagram below to get started.
+
+Instabanner allows you to create really simple banners and profile backgrounds for your social profiles using your instagram library.
+
+To get started simply connect with instagram below.
 
 {{connect_button}}
+
+<style>
+	html{
+		background-image:url({{homepage_image}});
+	}
+</style>

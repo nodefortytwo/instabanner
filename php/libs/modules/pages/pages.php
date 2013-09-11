@@ -23,7 +23,7 @@ function pages_homepage() {
 
     $page->title = "Welcome";
     $page->load_template('templates/index.mkd', 'pages');
-    $page->add_variable(array('homepage_image' => '<img src="/'.image_url(homepage_image()).'" width="100%" class="img-polaroid"/>', 'connect_button' => instagram_connect_button()));
+    $page->add_variable(array('homepage_image' => image_url(homepage_image()), 'connect_button' => instagram_connect_button()));
     
     return $page->render();
 }

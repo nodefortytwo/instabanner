@@ -203,14 +203,14 @@ function homepage_image(){
 	}
 
 	$image = array(
-			'width' => 1600,
-			'height' => 320,
+			'width' => 1200,
+			'height' => 900,
 			'cols' => 10
 		);
 
 	$images = new InstagramMediaCollection(array());
 	$images->random = true;
-	$id = $images->render('image', array('type' => $image));
+	$id = $images->render('image', array('type' => $image, 'quality' => 9));
 	var_set('homepage_image', $id);
 	return $id;
 }

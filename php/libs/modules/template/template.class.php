@@ -21,7 +21,7 @@ class Template
     }
 
     public function load_default_wrappers() {
-        $this->title = $this->title . ' | Instabanner.me';
+        $this->title = $this->title . ' | Fast awesome instagram powered images | Instabanner.me';
         $this->html = $this->get_template(config('PATH_TO_MODULES') . '/' . 'template' . '/' . 'theme/wrapper.tpl.php');
     }
 

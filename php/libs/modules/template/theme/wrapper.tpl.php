@@ -12,8 +12,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <title><?php print $this->title;?></title>
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="Create awesome social profile banner images using your instagram photos.">
+        <meta name="author" content="Rick Burgess">
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
