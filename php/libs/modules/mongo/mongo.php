@@ -25,7 +25,7 @@ function mdb($newdb = null){
     }
     
     if(!$mdb){
-        $db = config('OPENSHIFT_APP_NAME');
+        $db = 'instabanner';
         $mdb = $client->$db;
     }
     return $mdb;
