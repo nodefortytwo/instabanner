@@ -62,6 +62,7 @@ class InstagramMediaCollection extends Collection{
 
 
 	function render_image($args = array()){
+		//echo "generating home image\n";
 		$args = $args['1'];
 		if(!isset($args['type'])){
 			throw new exception('Specify image type when rendering image');
@@ -105,7 +106,7 @@ class InstagramMediaCollection extends Collection{
 
 		$cols = ceil($type['width'] / $size);
 		$rows = ceil($type['height'] / $size);
-		$images_required = $cols * $rows;
+		$images_required = $cols * $rows + 10;
 
 
 		//yay we have enough images! Load them into memory
@@ -117,7 +118,12 @@ class InstagramMediaCollection extends Collection{
 			}
 			$imgs[] = array($image['_id'], $image[$instagram_type]);
 			$c++;
+			//echo "image $c fetched from db \n";
+			unset($image);
 		}
+
+		//echo "image consists of $rows rows $cols cols \n";
+
 
 		$id = md5(serialize($imgs));
 		$path = config('UPLOAD_PATH') . '/' . $id . '.png';
@@ -128,9 +134,23 @@ class InstagramMediaCollection extends Collection{
 		$im = imagecreatetruecolor($type['width'], $type['height']);
 		for ($r = 0; $r < $rows; $r++) {
 			for ($c = 0; $c < $cols; $c++) {
+
+				unset($img, $cur_img, $new_size, $map);
+
+				//echo "building row $r col $c using image $iid \n";
 				$img = $imgs[$iid];
 				$iid++;
-				$cur_img = imagecreatefromjpeg($img[1]);
+				//echo ($img[1] . "\n");
+				
+				try {
+				   $cur_img = imagecreatefromjpeg($img[1]);
+				} catch (Exception $e) {
+					$img = $imgs[$iid];
+					$iid++;
+				    $cur_img = imagecreatefromjpeg($img[1]);
+				}
+
+				
 				$new_size = $size;
 				$x = $new_size * $c;
 				$y = $new_size * $r;
@@ -138,6 +158,8 @@ class InstagramMediaCollection extends Collection{
 				imagecopyresampled($im, $cur_img, $x, $y, 0, 0, $new_size, $new_size, imagesx($cur_img), imagesy($cur_img));
 			}
 		}
+		var_dump($im);
+		die();
 
 		$args['quality'] = isset($args['quality']) ? $args['quality'] : 0;
 		imagepng($im, $path, $args['quality']);

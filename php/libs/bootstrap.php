@@ -2,7 +2,7 @@
 $cli = false;
 if (defined('STDIN')) {
     $_SERVER['HTTP_HOST'] = $argv[1];
-    $_SERVER['REQUEST_URI'] = $argv[2];
+    $_SERVER['REQUEST_URI'] = isset($argv[2]) ? $argv[2] : 'home';
     print('STARTING CLI MODE' . "\n");
     $cli = true;
 }

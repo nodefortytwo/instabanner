@@ -20,11 +20,12 @@ function error_exception($e){
 	$error = new Error();
 	$eid = (string) $error->toss($e);
 	//take them to the error 500 page.
-
-	echo pages_500($eid);
+	var_dump($error['message'], $error->getExceptionTraceAsString());
 	die();
+	//echo pages_500($eid);
+	//die();
 
-	redirect('/500?eid=' . $eid);
+	//redirect('/500?eid=' . $eid);
 }
 
 function error_error($errno, $errstr, $errfile, $errline){

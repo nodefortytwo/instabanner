@@ -209,7 +209,7 @@ function homepage_image(){
 		);
 
 	$images = new InstagramMediaCollection(array());
-	$images->random = true;
+	//$images->random = true;
 	$id = $images->render('image', array('type' => $image, 'quality' => 9));
 	var_set('homepage_image', $id);
 	return $id;

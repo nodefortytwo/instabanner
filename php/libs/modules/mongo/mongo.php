@@ -17,7 +17,7 @@ function mongo_init(){
 function mdb($newdb = null){
     static $client, $mdb;
     if(!$client){
-        $client = new MongoClient();
+        $client = new MongoClient(mongo_connection_string());
     }
     
     if(!$mdb && $newdb){
