@@ -158,8 +158,6 @@ class InstagramMediaCollection extends Collection{
 				imagecopyresampled($im, $cur_img, $x, $y, 0, 0, $new_size, $new_size, imagesx($cur_img), imagesy($cur_img));
 			}
 		}
-		var_dump($im);
-		die();
 
 		$args['quality'] = isset($args['quality']) ? $args['quality'] : 0;
 		imagepng($im, $path, $args['quality']);
