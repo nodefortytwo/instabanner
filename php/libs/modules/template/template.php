@@ -404,3 +404,28 @@ function template_clear_cache($redirect = true){
         redirect('/');
     }
 }
+
+
+function template_tweet_intent($text = null, $url = null, $via = 'instabanner'){
+
+    $url = cur_page_url();
+
+    if(strpos($url, 'image/view/~/')){
+        $text = 'Check out my new instabanner!';
+    }else{
+        $text = 'Check out instabanner!';
+    }
+
+    $args = array(
+            'text' => $text,
+            'url' => cur_page_url(),
+            'via' => $via
+        );
+    return 'https://twitter.com/intent/tweet?' . http_build_query($args);
+}
+
+function template_fb_share($url = null){
+    $url = cur_page_url();
+    return 'http://www.facebook.com/sharer/sharer.php?u=' . urlencode($url);
+    return $url;
+}

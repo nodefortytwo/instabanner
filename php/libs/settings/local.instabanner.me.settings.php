@@ -4,7 +4,7 @@ ini_set('display_errors', '1');
 
 //Database
 //This site is hosted on OpenShift so we have to use OpenShift style db connection settings
-define('OPENSHIFT_MONGODB_DB_HOST', 'instabanner.me');
+define('OPENSHIFT_MONGODB_DB_HOST', 'localhost');
 define('OPENSHIFT_MONGODB_DB_PORT', '27017');
 define('OPENSHIFT_APP_NAME', 'instabanner');
 define('OPENSHIFT_MONGODB_DB_USERNAME', '');

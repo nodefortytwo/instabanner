@@ -38,12 +38,12 @@ class ImageCustom extends MongoBase{
 
 		$file = new File();
 		$file->create($imagevariable, null, 'png');
-		return $file->get_path();
+		return $file;
 	}
 
 	function render_image_tag($args = array()){
-		$path = $this->render('image', $args);
-		return '<img src="' . $path . '" class="img-polaroid" data-id="'.$this->_id.'"/>';
+		$file = $this->render('image', $args);
+		return '<img src="' . $file->get_path() . '" class="img-polaroid" data-id="'.$this->_id.'"/>';
 	}
 
 	function render_thumbnail_image($args = array()){

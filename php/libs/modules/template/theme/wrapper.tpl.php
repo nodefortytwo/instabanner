@@ -52,8 +52,13 @@
                         ?>
                     </div>
                     <div class="nav hidden-phone pull-right">
-                        <?php print($this->render_nav('top-right'))
+                        <?php //print($this->render_nav('top-right'))
                         ?>
+                        <ul class="nav">
+                            <li><a target="_blank" href="<?php echo template_fb_share(); ?>">Share</a></li>
+                            <li><a target="_blank" href="<?php echo template_tweet_intent(); ?>">Tweet</a></li>
+                        </ul>
+
                     </div>
                     <div class="nav visible-phone" id="phone-nav">
                         <?php print($this->render_nav('phone'))

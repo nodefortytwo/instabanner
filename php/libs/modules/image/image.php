@@ -117,14 +117,16 @@ function image_create_form(){
 }
 
 function image_view($iid){
-	$path =image_url($iid);
+	$file = new File($iid);
+	$path = $file->get_path();
+
 	if(!image_exists($iid)){
 		message('That image no longer exists, sorry :(');
 		redirect('/user');
 	}
 
 	$vars = array(
-		'image_path' => '/'.$path
+		'image_path' => ''.$path
 		);
 
 	$page = new Template();
@@ -159,7 +161,7 @@ function image_create($id = null){
 	$order = 'random';
 	$page = new Template();
 	$image = new ImageCustom($id);
-
+	$image['author'] = current_user()->_id;
 	//$page->add_js('js/image_create.js', 'image');
 	//$page->load_template('templates/image_create.html', 'image');
 
@@ -170,7 +172,12 @@ function image_create($id = null){
 		$images = $user->media;
 	}
 
+	$file = $image->render('image', array('source' => $images));
+	redirect('/image/view/~/' . $file->_id);
+	
+
 	$page->c($image->render('image_tag', array('source' => $images)));
+
 	return $page->render();
 
 	$type = image_types($type);
