@@ -70,7 +70,9 @@
         <div class="container-fluid container-body">
             <div class="row-fluid">
                 <div class="span12 body">
-                    <div style="padding:10px">
+                    <div id="ad1" class="ad"></div>
+                    <div id="ad2" class="ad"></div>
+                    <div id="main-content">
                         <?php print($this->compiled_messages)
                         ?>
                         <?php 

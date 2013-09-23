@@ -63,6 +63,10 @@ function image_types($id = null){
 						'height' => 1200,
 						'target_size' => 150,
 						'cols' => 8);
+
+	unset($images['iphone5']);
+
+
 	if($id && isset($images[$id])){
 		return $images[$id];
 	}

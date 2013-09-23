@@ -45,3 +45,47 @@ html{
 body{
 	background-color: rgba(255, 255, 255, 0.89);
 }
+
+
+/* Large desktop */
+@media (min-width: 1200px) {
+
+}
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+
+}
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+	.ad{
+		display: none;
+	}
+}
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) {}
+
+@media (min-width: 768px) {
+	.body{
+		position: relative;
+	}
+
+	#main-content{
+		padding:10px 170px;
+	}
+
+	.ad{
+		width:170px;
+		text-align: center;
+		position: absolute;
+	}
+
+	#ad1{
+		left:-10px;
+	}
+	#ad2{
+		right:-10px;
+	}
+}

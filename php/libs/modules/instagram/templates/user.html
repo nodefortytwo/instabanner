@@ -1,12 +1,7 @@
 
 <div class="row-fluid">
-	<div class="span4">
-		<div class="span12">
-			<h3>Create an Instabanner!</h3>
-			{{image_create_form}}
-		</div>
-	</div>
-	<div class="span6 offset2">
+	
+	<div class="span6">
 		<div class="row-fluid">
 			<div class="span12">
 				<h3>Hi {{username}}, you sexy beast!</h3>
@@ -14,15 +9,20 @@
 		</div>
 		<div class="row-fluid">
 			<div class="span12">
-				<p>So far we have {{media_count}} of your images, click "Load Images" below to sync your latest images</p>
+				<p>We have found {{media_count}} images from instagram as of {{last_pull}}</p>
 			</div>
 		</div>
 		<div class="row-fluid">
 			<div class="span12">
-				<p>{{pull_media}}</p>
-				<p>Here is a random sample to spice up this page :)</p>
+				<p>Simply fill out the form on the right to get started. any problems please let me (<a href="//twitter.com/nodefortytwo">@nodefortytwo</a>) know</p>
+				<p>I am constantly looking for ways to improve the site so if you have any suggestions I would love to hear from you</p>
 			</div>
 		</div>
-		{{history}}
+	</div>
+	<div class="span4 offset2">
+		<div class="span12">
+			<h3>Create an Instabanner!</h3>
+			{{image_create_form}}
+		</div>
 	</div>
 </div>

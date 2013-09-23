@@ -65,30 +65,12 @@ function instagram_user(){
 		redirect('/');
 	}
 	$history = '';
-	if(is_array($user['generated_images'])){
-		$history .= '<div class="row-fluid">';
-		$history .= '<strong> Checkout some of your previous instabanners</strong>';
-		$history .= '<div class="row-fluid"><div class="span12 well">';
-
-		$himgs = $user['generated_images'];
-		$himgs = array_reverse($himgs);
-		$himgs = array_splice($himgs, 0, 5);
-
-		foreach($himgs as $img){
-			if(!image_exists($img)){
-				continue;
-			}			
-			$history .= l($img, get_url('/image/view/~/' . $img)).'<br/>';
-		}
-		$history .= '</div></div>';
-		$history .= '</div>';
-	}
-
 	$content = new Template(false);
 	$content->load_template('templates/user.html', 'instagram');
 	$vars = array(
 			'username' => $user['username'],
 			'media_count' => $user->media->cnt,
+			'last_pull' => template_date($user['last_pull']),
 			'pull_media' => l('Load Images', '/instagram/pull/media', 'btn'),
 			'image_create_form' => image_create_form(),
 			'history' => $history

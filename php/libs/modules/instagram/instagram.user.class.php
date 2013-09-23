@@ -2,6 +2,12 @@
 class InstagramUser extends MongoBase{
 	protected $collection = 'instagramUser';
 
+	public function __construct($rec = null){
+		parent::__construct($rec);
+
+		$this['last_pull'] = isset($this['last_pull']) ? $this['last_pull'] : new MongoDate(0);
+	}
+
 	public function update_from_session(){
 		foreach(session()->instagram->user as $key=>$value){
 			$this[$key] = $value;
@@ -10,7 +16,11 @@ class InstagramUser extends MongoBase{
 	}
 
 	public function pull_media(){
-		$media = new InstagramUserMediaPull($this['_id']);
+		if(time() - $this['last_pull']->sec > $this->pull_freq){
+			$media = new InstagramUserMediaPull($this['_id']);	
+			$this['last_pull'] = new MongoDate();
+			$this->save();		
+		}
 	}
 
 	//__get function
@@ -31,6 +41,10 @@ class InstagramUser extends MongoBase{
 		$m = $this->media;
 		$m->random = true;
 		return $m;
+	}
+
+	public function get_pull_freq(){
+		return 3600 * 24;
 	}
 }
 
