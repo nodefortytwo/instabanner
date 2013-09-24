@@ -61,6 +61,7 @@ function current_user(){
 
 function instagram_user(){
 	$user = current_user();
+	$user->pull_media();
 	if(!is_object($user)){
 		redirect('/');
 	}
